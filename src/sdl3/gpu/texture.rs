@@ -309,7 +309,7 @@ impl<'a> Texture<'a> {
         }
     }
 
-    pub(super) fn new_sdl_managed(
+    pub(crate) fn new_sdl_managed(
         raw: *mut SDL_GPUTexture,
         width: u32,
         height: u32,

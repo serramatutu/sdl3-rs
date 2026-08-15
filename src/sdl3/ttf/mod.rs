@@ -27,7 +27,10 @@ mod font;
 pub use sdl3_ttf_sys::ttf as sys;
 
 pub use self::context::{get_linked_version, has_been_initialized, init, Sdl3TtfContext};
-pub use self::engine::{Text, TextEngine};
+pub use self::engine::{
+    GpuAtlasDrawSequence, GpuBackend, GpuTextEngine, ImageType, RendererBackend,
+    RendererTextEngine, Text, TextEngine, TextEngineBackend,
+};
 pub use self::font::{
     Font, FontError, FontResult, FontStyle, GlyphMetrics, Hinting, PartialRendering,
 };
