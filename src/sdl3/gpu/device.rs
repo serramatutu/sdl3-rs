@@ -337,3 +337,12 @@ impl Device {
         }
     }
 }
+
+// SAFETY:
+// - Resource creation (Textures, Buffers etc) can be done from any thread.
+// - Swapchain is thread-affine, but `Window` is not `Send` so there is no way the
+//   user can do `Window` stuff outside of the `Window` thread
+// - Command buffers can be created on any thread, but must be submitted on the same
+//   thread that created them. Since `CommandBuffer` is not `Send`, this ensures
+//   that property holds as well.
+unsafe impl Send for Device {}
