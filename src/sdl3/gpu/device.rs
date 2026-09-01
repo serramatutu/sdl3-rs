@@ -346,3 +346,4 @@ impl Device {
 //   thread that created them. Since `CommandBuffer` is not `Send`, this ensures
 //   that property holds as well.
 unsafe impl Send for Device {}
+unsafe impl Send for DeviceContainer {}

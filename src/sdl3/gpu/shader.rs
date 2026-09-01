@@ -30,6 +30,16 @@ impl Shader {
     }
 }
 
+// SAFETY:
+// - Vulkan, DX12 and Metal are all free-threaded, meaning a objects do not hold thread-local
+// references
+// - Compiling shaders in a separate thread and then handing them back to a main renderer thread
+// is a common pattern
+unsafe impl Send for Shader {}
+unsafe impl Send for ShaderContainer {}
+unsafe impl Sync for Shader {}
+unsafe impl Sync for ShaderContainer {}
+
 pub struct ShaderBuilder<'a> {
     device: &'a Device,
     inner: SDL_GPUShaderCreateInfo,
