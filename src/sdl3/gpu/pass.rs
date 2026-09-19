@@ -11,14 +11,7 @@ use crate::{
 };
 use std::sync::Arc;
 use sys::gpu::{
-    SDL_AcquireGPUSwapchainTexture, SDL_BindGPUFragmentSamplers, SDL_BindGPUIndexBuffer,
-    SDL_BindGPUVertexBuffers, SDL_BindGPUVertexSamplers, SDL_DrawGPUIndexedPrimitives,
-    SDL_GPUBlitInfo, SDL_GPUBufferBinding, SDL_GPUColorTargetInfo, SDL_GPUCommandBuffer,
-    SDL_GPUComputePass, SDL_GPUCopyPass, SDL_GPUDepthStencilTargetInfo, SDL_GPUFence,
-    SDL_GPUFilter, SDL_GPULoadOp, SDL_GPURenderPass, SDL_GPUTextureSamplerBinding,
-    SDL_PushGPUComputeUniformData, SDL_PushGPUFragmentUniformData, SDL_PushGPUVertexUniformData,
-    SDL_QueryGPUFence, SDL_ReleaseGPUFence, SDL_UploadToGPUBuffer, SDL_UploadToGPUTexture,
-    SDL_WaitAndAcquireGPUSwapchainTexture,
+    SDL_AcquireGPUSwapchainTexture, SDL_BindGPUFragmentSamplers, SDL_BindGPUIndexBuffer, SDL_BindGPUVertexBuffers, SDL_BindGPUVertexSamplers, SDL_DownloadFromGPUBuffer, SDL_DrawGPUIndexedPrimitives, SDL_GPUBlitInfo, SDL_GPUBufferBinding, SDL_GPUColorTargetInfo, SDL_GPUCommandBuffer, SDL_GPUComputePass, SDL_GPUCopyPass, SDL_GPUDepthStencilTargetInfo, SDL_GPUFence, SDL_GPUFilter, SDL_GPULoadOp, SDL_GPURenderPass, SDL_GPUTextureSamplerBinding, SDL_PushGPUComputeUniformData, SDL_PushGPUFragmentUniformData, SDL_PushGPUVertexUniformData, SDL_QueryGPUFence, SDL_ReleaseGPUFence, SDL_UploadToGPUBuffer, SDL_UploadToGPUTexture, SDL_WaitAndAcquireGPUSwapchainTexture
 };
 
 /// Manages the raw `SDL_GPUFence` pointer and releases it on drop
@@ -559,6 +552,15 @@ impl CopyPass {
         cycle: bool,
     ) {
         unsafe { SDL_UploadToGPUTexture(self.raw(), &source.inner, &destination.inner, cycle) }
+    }
+
+    #[doc(alias = "SDL_DownloadFromGPUBuffer")]
+    pub fn download_from_gpu_buffer(
+        &self,
+        source: BufferRegion,
+        destination: TransferBufferLocation,
+    ) {
+        unsafe { SDL_DownloadFromGPUBuffer(self.raw(), &source.inner, &destination.inner) }
     }
 }
 
