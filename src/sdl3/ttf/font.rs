@@ -19,6 +19,7 @@ pub type Hinting = ttf::TTF_HintingFlags;
 
 bitflags! {
     /// The styling of a font.
+    #[derive(Debug, Clone, Copy, PartialEq)]
     pub struct FontStyle: u32 {
         const NORMAL        = ttf::TTF_STYLE_NORMAL.0 as u32;
         const BOLD          = ttf::TTF_STYLE_BOLD.0 as u32;

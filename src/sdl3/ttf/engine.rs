@@ -248,8 +248,9 @@ impl<'a> GpuAtlasDrawSequence<'a> {
         unsafe { &*self.raw }
     }
 
-    pub fn atlas_texture(&self) -> GpuTexture<'static> {
-        GpuTexture::new_sdl_managed(self.node().atlas_texture, 0, 0)
+    pub fn atlas_texture(&self) -> Option<GpuTexture<'static>> {
+        let raw = self.node().atlas_texture;
+        (!raw.is_null()).then(|| GpuTexture::new_sdl_managed(raw, 0, 0))
     }
 
     pub fn image_type(&self) -> Option<ImageType> {
@@ -261,9 +262,10 @@ impl<'a> GpuAtlasDrawSequence<'a> {
         unsafe { std::slice::from_raw_parts(node.xy, node.num_vertices as usize) }
     }
 
-    pub fn uv(&self) -> &'a [sys::rect::SDL_FPoint] {
+    pub fn uv(&self) -> Option<&'a [sys::rect::SDL_FPoint]> {
         let node = self.node();
-        unsafe { std::slice::from_raw_parts(node.uv, node.num_vertices as usize) }
+        (!node.uv.is_null())
+            .then(|| unsafe { std::slice::from_raw_parts(node.uv, node.num_vertices as usize) })
     }
 
     pub fn indices(&self) -> &'a [c_int] {
