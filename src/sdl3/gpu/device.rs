@@ -290,6 +290,16 @@ impl Device {
         unsafe { std::mem::transmute(sys::gpu::SDL_GetGPUShaderFormats(self.raw())) }
     }
 
+    #[doc(alias = "SDL_WaitForGPUSwapchain")]
+    pub fn wait_for_swapchain(&self, window: &Window) -> Result<(), Error> {
+        let success = unsafe { sys::gpu::SDL_WaitForGPUSwapchain(self.raw(), window.raw()) };
+        if success {
+            Ok(())
+        } else {
+            Err(get_error())
+        }
+    }
+
     #[doc(alias = "SDL_SetGPUSwapchainParameters")]
     pub fn set_swapchain_parameters(
         &self,
